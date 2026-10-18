@@ -1,24 +1,27 @@
 <?php
-// Include the database configuration file
+// Include your database configuration
 require_once 'dbconfig.php';
 
 try {
-    // 1. Prepare an SQL statement to fetch a single record (e.g., item with item_id = 1)
+    // 1. Prepare an SQL statement targeting a specific item by ID
     $stmt = $pdo->prepare("SELECT * FROM grocery_items WHERE item_id = :id");
     
-    // 2. Execute the query by binding the parameters
-    $stmt->execute(['id' => 1]);
+    // 2. Execute the query by supplying the specific item ID
+    $stmt->execute(['id' => 1]); // Change 1 to any item_id you want
     
-    // 3. Fetch a single record as an associative array using fetch()
-    $grocery_item = $stmt->fetch(PDO::FETCH_ASSOC);
+    // 3. Fetch the single matching record as an associative array
+    $item = $stmt->fetch(PDO::FETCH_ASSOC);
     
-    // 4. Display the single record cleanly using <pre> tags and print_r()
-    echo "<pre>";
-    print_r($grocery_item);
-    echo "</pre>";
+    // 4. Print the array formatted with <pre> tags
+    if ($item) {
+        echo "<pre>";
+        print_r($item);
+        echo "</pre>";
+    } else {
+        echo "No item found with that ID.";
+    }
 
 } catch (PDOException $e) {
-    // Display error message if the query fails
     echo "Error fetching record: " . $e->getMessage();
 }
 ?>
