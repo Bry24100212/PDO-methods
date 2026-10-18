@@ -1,0 +1,24 @@
+<?php
+// Include the database configuration file
+require_once 'dbconfig.php';
+
+try {
+    // 1. Query all records from the grocery_items table
+    $stmt = $pdo->prepare("SELECT * FROM grocery_items");
+    
+    // 2. Execute the query
+    $stmt->execute();
+    
+    // 3. Fetch all records into an associative array
+    $groceries = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // 4. Output formatted with <pre> and print_r()
+    echo "<pre>";
+    print_r($groceries);
+    echo "</pre>";
+
+} catch (PDOException $e) {
+    // Display error message if the query fails
+    echo "Error fetching records: " . $e->getMessage();
+}
+?>
